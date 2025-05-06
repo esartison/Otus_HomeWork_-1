@@ -35,41 +35,37 @@
 ***Выключите автоматический коммит (auto commit) в обеих сессиях.***
 ![image](https://github.com/user-attachments/assets/2830482b-9597-4a6d-9573-bda6b85711d5)
   
-- В первой сессии создайте таблицу shipments (перевозки) и добавьте в неё данные:
+***В первой сессии создайте таблицу shipments (перевозки) и добавьте в неё данные:***
 
-  sql
+Выполнено
+![image](https://github.com/user-attachments/assets/c4c42eaf-7f71-4cd7-8a6f-65cb9b962900)
 
-  ```sql
-  create table shipments(id serial, product_name text, quantity int, destination text);
-  insert into shipments(product_name, quantity, destination) values('bananas', 1000, 'Europe');
-  insert into shipments(product_name, quantity, destination) values('coffee', 500, 'USA');
-  commit;
-  ```
-- *Почему это важно:* Алексей использовал эту таблицу для учёта перевозок бананов и кофе.
 
-**Изучение уровней изоляции**
+## (6) Изучение уровней изоляции ##
 
-- Проверьте текущий уровень изоляции с помощью команды:
+***Проверьте текущий уровень изоляции с помощью команды:***
+![image](https://github.com/user-attachments/assets/ce977a47-c685-45f5-8a9a-0929d5ac2361)
 
-  ```sql
-  show transaction isolation level;
-  ```
-- Начните новую транзакцию в обеих сессиях с уровнем изоляции по умолчанию.
-- В первой сессии добавьте новую запись:
 
-  ```sql
-  insert into shipments(product_name, quantity, destination) values('sugar', 300, 'Asia');
-  ```
-- Во второй сессии выполните:
+***Начните новую транзакцию в обеих сессиях с уровнем изоляции по умолчанию***
+***В первой сессии добавьте новую запись***
+![image](https://github.com/user-attachments/assets/4b21eea1-1554-432b-887d-d3d6c7f9b517)
 
-  ```sql
-  select * from shipments;
-  ```
-- Видите ли вы новую запись? Объясните, почему да или нет.
-- Завершите первую транзакцию с помощью commit; и снова выполните select \* from shipments во второй сессии. Видите ли вы новую запись теперь? Объясните.
-- *Почему это важно:* Алексей изучал уровни изоляции, чтобы понять, как данные видны разным пользователям.
+***Во второй сессии выполните:***
 
-**Эксперименты с уровнем изоляции Repeatable Read**
+![image](https://github.com/user-attachments/assets/c0d312e5-d423-481a-bf67-c44ca42a1883)
+
+***- Видите ли вы новую запись? Объясните, почему да или нет.***
+
+Во второй сессии новую запись с продуктом sugar не виижу, так-как дынне не зафиксированы(commit)
+
+***- Завершите первую транзакцию с помощью commit; и снова выполните select \* from shipments во второй сессии. Видите ли вы новую запись теперь? Объясните.***
+![image](https://github.com/user-attachments/assets/863ca9e0-21a1-43c8-ab10-d1a5de39ac31)
+
+После фиксации изменения видны во второй сессии. 
+
+
+## (7) Эксперименты с уровнем изоляции Repeatable Read ##
 
 - Начните новые транзакции в обеих сессиях с уровнем изоляции repeatable read:
 
